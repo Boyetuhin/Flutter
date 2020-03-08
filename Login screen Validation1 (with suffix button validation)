@@ -1,0 +1,240 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+//import 'package:oridsha_ngo/screens/design/design.dart';
+
+class LoginForm extends StatefulWidget{
+  createState(){
+    return LoginFormState();
+  }
+}
+
+
+class LoginFormState extends State<LoginForm>{
+  var textLength = 6;
+  var mobileLength=10;
+
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(context){
+    return Container(
+      margin: EdgeInsets.only(top: 30.0, right: 30.0,left:0), //gap b/w userId & 'Fist time user'
+
+      child: Form( 
+        key: formKey,                                       //// Form widget
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,  /// gonna make it in center and stretchble
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                userField(),
+                Container(margin: EdgeInsets.only(top: 30.0)),
+                numberField(),
+                    Container(margin: EdgeInsets.only(top: 40.0,)),
+                activateButton(),
+              ],
+          ),
+      ),
+    );
+  }
+
+
+
+
+  Widget userField(){
+    return TextFormField( 
+
+
+
+onChanged: (text){
+ 
+      setState((){
+      textLength = text.length;
+     });
+  },
+    
+
+      decoration: InputDecoration(
+
+
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color:Colors.grey),
+            borderRadius:BorderRadius.only( bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+           ),
+
+
+           focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color:Color(0xFF425c5a),),//color:Colors.blue),
+           borderRadius:BorderRadius.only( bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+           ),
+
+
+           errorBorder: OutlineInputBorder(
+           borderSide: BorderSide(color:Colors.grey),
+            borderRadius:BorderRadius.only( bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+          ),
+
+
+
+       
+        
+      
+      suffixIcon: Icon(textLength <= 5 ? Icons.cancel : Icons.check, color: textLength >= 6 ? Colors.green : Colors.red),
+        
+        
+        labelText: 'User ID',
+        hintText: 'Enter your 6 digit user id',
+        //hintStyle: kHintTextStyle,
+        //filled: true,
+        //fillColor: Colors.grey[200],
+        icon: Icon(Icons.account_circle),
+      
+      
+      ),
+
+
+      keyboardType:
+       TextInputType.number,//phone
+      inputFormatters:[                        //only numeric keyboard.
+        LengthLimitingTextInputFormatter(6),      //only 6 digit
+        WhitelistingTextInputFormatter.digitsOnly,
+      ],
+
+
+      
+      
+      
+      
+      validator: (String value){
+        if (value.length<6)
+         {
+          return 'User ID must have 6 characters'; 
+         }
+          
+          return null;
+
+          
+      },
+
+
+    );
+  }
+
+
+
+
+
+
+
+  Widget numberField(){
+    return TextFormField(
+
+onChanged: (text){
+ 
+      setState((){
+      mobileLength = text.length;
+     });
+  },
+
+
+
+      //maxLength: 10,
+      decoration: InputDecoration(
+
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color:Colors.grey),
+           
+             borderRadius:BorderRadius.only( bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+
+          ),
+
+
+
+
+           focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF425c5a),),//Colors.blue),
+            borderRadius:BorderRadius.only(bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+          ),
+
+
+
+          errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color:Colors.grey),
+            borderRadius:BorderRadius.only( bottomLeft: Radius.circular(20)  ,topRight: Radius.circular(20)   )
+          ),
+
+     
+
+
+       
+
+suffixIcon: Icon(mobileLength <= 9 ? Icons.cancel : Icons.check, color: mobileLength >= 10 ? Colors.green : Colors.red),
+
+
+
+        labelText: 'Mobile Number',
+        hintText: '10 digit mobile number',
+        // hintStyle: kHintTextStyle,
+        //filled: true,
+        //fillColor: Colors.grey[200],
+         icon: Icon(Icons.phone,)
+      ),
+
+
+      keyboardType: 
+      TextInputType.number,
+        inputFormatters:[
+          LengthLimitingTextInputFormatter(10),
+          WhitelistingTextInputFormatter.digitsOnly
+      ],
+
+
+      validator: (String value){
+        if (value.length<10)
+         {
+         return 'Phone Number must be 10 characters'; 
+         }
+          return null;
+      },
+
+
+   
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+  Widget activateButton(){
+    return RaisedButton(
+      color:Color(0xFF425c5a), //DARK GREEN COLOR
+      child: Text(
+                  'Activate',
+                  style: TextStyle(
+                    fontFamily: 'Californian FB',
+                    color:Color(0xFFF4D3AE),
+                    fontWeight: FontWeight.normal, //bold
+                    letterSpacing: 2.0,
+                    fontSize: 15.0,
+                  )),
+
+                  padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 13.0),    //Activate button box will take more space horizontally & vertically.
+
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20)  ,bottomRight: Radius.circular(20)),
+                   ),
+      
+      onPressed: () {
+        print(formKey.currentState.validate());// if form valid it will print true in terminal.
+      },
+    );
+  }
+
+
+}
